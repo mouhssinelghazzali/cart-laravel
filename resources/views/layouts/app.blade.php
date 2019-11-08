@@ -18,6 +18,7 @@
     <script src="https://kit.fontawesome.com/8ff1b51b56.js" crossorigin="anonymous"></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body>
     <div id="app">
@@ -82,5 +83,8 @@
             @yield('content')
         </main>
     </div>
+    @include('sweetalert::alert')
+
+    @yield('script')
 </body>
 </html>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Product;
 use Illuminate\Http\Request;
+use Cartalyst\Stripe\Laravel\Facades\Stripe;
+use function Opis\Closure\serialize;
 
 class ProductController extends Controller
 {
@@ -109,4 +111,36 @@ class ProductController extends Controller
        $cart= $this->pricart();
         return view('cart.show',compact('cart'));
     }
+
+    public function checkout($amount) {
+
+        return view('cart.checkout',compact('amount'));
+}
+
+
+public function charge(Request $request )
+    {
+    //dd($request->stripeToken);
+    $charge = Stripe::charges()->create([
+        'currency' => 'USD',
+        'source' => $request->stripeToken ,
+        'amount'   => $request->amount,
+        'description' => ' Test from laravel new app'
+    ]);
+
+    $chargeId = $charge['id'];
+    if ($chargeId) {
+        // save order in orders table ...
+
+        auth()->user()->orders()->create([
+            'cart' => serialize(session()->get('cart'))
+        ]);
+        // clearn cart
+        session()->forget('cart');
+        return redirect()->route('store')->with('success', " Payment was done. Thanks");
+    } else {
+        return redirect()->back();
+    }
+    }
+
 }
