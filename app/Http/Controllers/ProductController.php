@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -18,15 +19,33 @@ class ProductController extends Controller
 
         return view('store.store',compact('products'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    private function pricart()
     {
-        //
+
+        if (session()->has('cart')) {
+            $cart = new Cart(session()->get('cart'));
+        }
+        else{
+            $cart = null;
+        }
+        return $cart;
+    }
+    private function cart($product)
+    {
+        if (session()->has('cart')) {
+            $cart = new Cart(session()->get('cart'));
+        }
+        else{
+            $cart = new Cart();
+        }
+        $cart->add($product);
+        session()->put('cart',$cart);
+    }
+    public function addToCart(Product $product)
+    {
+        $this->cart($product);
+        return redirect()->route('products.index')->with('success','Product was added');
+
     }
 
     /**
@@ -83,5 +102,11 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function showCart()
+    {
+       $cart= $this->pricart();
+        return view('cart.show',compact('cart'));
     }
 }

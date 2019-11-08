@@ -20,3 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products', 'ProductController@index')->name('products.index');
 Route::get('/store', 'HomeController@store')->name('store');
+Route::get('/addToCart/{product}', 'ProductController@addToCart')->name('cart.add');
+Route::get('/shopping-cart', 'ProductController@showCart')->name('cart.show');
+
