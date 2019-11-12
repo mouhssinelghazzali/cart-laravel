@@ -22,7 +22,7 @@
             @endif
         <div class="row">
 
-        @foreach($latestproducts  as $product)
+        @foreach($products  as $product)
         <div class="col-md-4">
                 <div class="card" >
                 <img class="card-img-top" src="{{$product->image}}" alt="Card image cap">

@@ -23,7 +23,8 @@ Route::get('/store', 'HomeController@store')->name('store');
 Route::get('/addToCart/{product}', 'ProductController@addToCart')->name('cart.add');
 Route::get('/shopping-cart', 'ProductController@showCart')->name('cart.show');
 Route::get('/checkout/{amount}', 'ProductController@checkout')->name('cart.checkout')->middleware('auth');
-
+Route::delete('/products/{product}', 'ProductController@destroy')->name('product.remove');
+Route::put('/products/{product}', 'ProductController@update')->name('product.update');
 
 Route::post('/charge', 'ProductController@charge')->name('cart.charge');
 
