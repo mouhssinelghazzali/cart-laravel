@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use Illuminate\Http\Request;
+use function Opis\Closure\unserialize;
 
 class OrderController extends Controller
 {
@@ -14,7 +15,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = auth()->user()->orders;
+        $carts = $orders->transform(function($cart,$key){
+            return unserialize($cart->cart);
+        });
+        dd($orders);
+       return view('order.index')->with('carts', $carts);
     }
 
     /**

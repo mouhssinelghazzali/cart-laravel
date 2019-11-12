@@ -28,4 +28,6 @@ Route::get('/checkout/{amount}', 'ProductController@checkout')->name('cart.check
 Route::post('/charge', 'ProductController@charge')->name('cart.charge');
 
 
+Route::get('/orders', 'OrderController@index')->name('order.index');
+
 
