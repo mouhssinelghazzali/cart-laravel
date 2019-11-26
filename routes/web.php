@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('store');
 });
 
 Auth::routes();
@@ -32,3 +32,8 @@ Route::post('/charge', 'ProductController@charge')->name('cart.charge');
 Route::get('/orders', 'OrderController@index')->name('order.index');
 
 
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
